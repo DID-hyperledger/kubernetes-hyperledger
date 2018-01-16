@@ -1,0 +1,82 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: orderer-deployment-1
+spec:
+  template:
+    metadata:
+      labels:
+        app: orderer-1
+    spec:
+      containers:
+        - name: orderer1
+          image: hyperledger/fabric-orderer
+          ports:
+            - containerPort: 7050
+          volumnMounts:
+            - name: crypto-genesis
+              mountPath: /var/hyperledger/orderer/
+          volumns:
+            - name: crypto-genesis
+              configMap:
+                name: crypto
+                items:
+                  - key: orderer-genesis
+                    path: orderer.genesis.block
+                  - key: orderer-tls-privatekey
+                    path: tls/server.key
+                  - key: orderer-tls-certificate
+                    path: tls/server.crt
+                  - key: orderer-tls-rootcas
+                    path: tls/ca.crt
+          env:
+            - name: ORDERER_GENERAL_LOGLEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.loglevel
+            - name: ORDERER_GENERAL_LISTENADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.listenaddress
+            - name: ORDERER_GENERAL_GENESISMETHOD
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.genesismethod
+            - name: ORDERER_GENERAL_GENESISFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.genesisfile
+            - name: ORDERER_GENERAL_LOCALMSPID
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.localmspid
+            - name: ORDERER_GENERAL_LOCALMSPDIR
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.localmspdir
+            - name: ORDERER_GENERAL_TLS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.tls.enabled
+            - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.tls.privatekey
+            - name: ORDERER_GENERAL_TLS_CERTIFICATE
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.tls.certificate
+            - name: ORDERER_GENERAL_TLS_ROOTCAS
+              valueFrom:
+                configMapKeyRef:
+                  name: orderer-configmap
+                  key: orderer.general.tls.rootcas

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer-1
+  labels:
+    app: orderer-1
+spec:
+  ports:
+    - name: client
+      port: 7050
+      protocol: TCP
+selector:
+  app: orderer-1
+

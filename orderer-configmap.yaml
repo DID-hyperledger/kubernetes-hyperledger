@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orderer-configmap
+data:
+  orderer.general.loglevel=debug
+  orderer.general.listenaddress=0.0.0.0
+  orderer.general.genesismethod=file
+  orderer.general.genesisfile=/var/hyperledger/orderer/orderer.genesis.block
+  orderer.general.localmspid=OrdererMSP
+  orderer.general.localmspdir=/var/hyperledger/orderer/msp
+  orderer.general.tls.enabled=true
+  orderer.general.tls.privatekey=/var/hyperledger/orderer/tls/server.key
+  orderer.general.tls.certificate=/var/hyperledger/orderer/tls/server.crt
+  orderer.general.tls.rootcas=[/var/hyperledger/orderer/tls/ca.crt]
